@@ -2,7 +2,7 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
-            [clojure.java.shell :only [sh]]
+            [clojure.java.shell :as shell]
             [ring.swagger.schema :as rs]))
 
 
@@ -17,7 +17,7 @@
            (= (:name w) "build"))
     (do
       (println "executing wish:" w)
-      (clojure.java.shell "site.sh")
+      (shell/sh "site.sh")
       "Your wish is my command.")
     (do
       (println "failed wish:" w)
