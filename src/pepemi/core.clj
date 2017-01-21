@@ -28,8 +28,8 @@
 (def app
   (api
     {:swagger
-     {:ui   "/"
-      :spec "/swagger"
+     {:ui   "/api-doc"
+      :spec "/api-doc/swagger"
       :data {:info {:title "Service"}
              :tags [{:name "api"}]}}}
     (context "/api" []
@@ -40,7 +40,6 @@
                    (println wish)
                    (ok (execute-wish wish)))
              (GET "/wish" []
-                   :return {:result String}
                    :summary "List of wishes"
-                   (ok)))))
+                   (ok {:name "fly" :target "X"})))))
 
