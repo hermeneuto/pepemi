@@ -13,10 +13,11 @@
 ;(s/defschema NewAccount (dissoc Account :id))
 
 (defn execute-wish[w]
-  (if (and (= (:target w) "kabanew")
-           (= (:name w) "fly"))
+  (if (and (= (:target w) "philosobit")
+           (= (:name w) "build"))
     (do
       (println "executing wish:" w)
+      (clojure.java.shell "site.sh")
       "Your wish is my command.")
     (do
       (println "failed wish:" w)
@@ -41,5 +42,5 @@
                    (ok (execute-wish wish)))
              (GET "/wish" []
                    :summary "List of wishes"
-                   (ok {:name "fly" :target "X"})))))
+                   (ok {:name "build" :target "?"})))))
 
