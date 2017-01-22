@@ -9,22 +9,26 @@
 (s/defschema Wish
              {:name      s/Str
               :target s/Str})
-
 ;(s/defschema NewAccount (dissoc Account :id))
 
-(defn execute-wish[w]
-  (if (and (= (:target w) "philosobit")
-           (= (:name w) "build"))
+(defn build [target]
+  (case target
+    "philosobit" (do
+                   (println (shell/sh "site.sh"))
+                   "DONE.")
+    "kabanew" (do
+                (println (shell/sh "kabanew.sh"))
+                "Your wish is my command.")
+    "ためよ。ためため"))
+
+(defn execute-wish [w]
+  (if (= (:name w) "build")
     (do
-      (println "executing wish:" w)
-      (shell/sh "site.sh")
-      "Your wish is my command.")
+      (println "building wish:" w)
+      (build (:target w)))
     (do
       (println "failed wish:" w)
-      "ためよ。ためため"
-      )
-    ))
-
+      "모야")))
 
 (def app
   (api
