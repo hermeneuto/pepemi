@@ -1,3 +1,11 @@
 # Introduction to pepemi
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+Get
+~~~~
+curl localhost:3000/api/wish
+~~~~
+
+Post
+~~~~
+curl -X POST --header 'Content-Type: application/edn' http://localhost:3000/api/wish -d '{:name "build" :target "?"}'
+~~~~

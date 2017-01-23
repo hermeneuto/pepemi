@@ -1,0 +1,19 @@
+<configuration>
+    <appender name="FILE_APP"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/pepemi-app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>logs/pepemi-app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %logger [%level] %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- APP -->
+    <root level="INFO">
+        <appender-ref ref="FILE_APP" />
+    </root>
+</configuration>

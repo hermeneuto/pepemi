@@ -2,23 +2,39 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
+            [clojure.tools.logging :as log]
             [clojure.java.shell :as shell]
             [ring.swagger.schema :as rs]))
 
 
 (s/defschema Wish
-             {:name      s/Str
+             {:name   s/Str
               :target s/Str})
 ;(s/defschema NewAccount (dissoc Account :id))
 
 (defn build [target]
   (case target
-    "philosobit" (do
-                   (println (shell/sh "site.sh"))
-                   "DONE.")
-    "kabanew" (do
-                (println (shell/sh "kabanew.sh"))
-                "Your wish is my command.")
+    "philosobit"
+                (try
+                  (log/info "START: site.sh")
+                  (shell/sh "site.sh")
+                  (log/info "DONE: site.sh")
+                  "DONE"
+                  (catch Exception e
+                    (log/error "ERROR: site.sh", e)
+                    "Code:101"
+                    ))
+    "kabanew"
+                (try
+                  (log/info "START: kabanew.sh")
+                  (shell/sh "kabanew.sh")
+                  (log/info "DONE: kabanew.sh")
+                  "Your wish is my command."
+                  (catch Exception e
+                    ;(log/error "ERROR: kananew.sh", e)
+                    "Code:102"
+                     ))
+
     "ためよ。ためため"))
 
 (defn execute-wish [w]
@@ -40,11 +56,13 @@
     (context "/api" []
              :tags ["api"]
              (POST "/wish" []
-                   :body [wish (describe Wish "New Wish")]
-                   :summary "Create wish."
-                   (println wish)
-                   (ok (execute-wish wish)))
-             (GET "/wish" []
-                   :summary "List of wishes"
+               :body [wish (describe Wish "New Wish")]
+               :summary "Create wish."
+               (log/info "POST[wish]" wish)
+               (ok (execute-wish wish)))
+             (GET "/wish" {headers :headers params :params}
+               :summary "List of wishes"
+                   (log/info "GET[wish]" (str headers) (str params))
                    (ok {:name "build" :target "?"})))))
 
+(println "Initializing ")
