@@ -31,7 +31,7 @@
                   (log/info "DONE: kabanew.sh")
                   "Your wish is my command."
                   (catch Exception e
-                    ;(log/error "ERROR: kananew.sh", e)
+                    (log/error "ERROR: kananew.sh", e)
                     "Code:102"
                      ))
 
